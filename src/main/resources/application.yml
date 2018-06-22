@@ -1,0 +1,32 @@
+# Servlet Container & Health Setup
+server:
+  address: 0.0.0.0
+management:
+  address: 0.0.0.0
+  port: 8081
+endpoints:
+  enabled: false
+  health:
+    enabled: true
+    
+# Spring Boot
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    pool:
+      enabled: true
+      max-connections: 10
+
+# Camel Spring Boot
+camel:
+  springboot:
+    name: CamelRequestReplyWorker
+
+# Logging
+logging:
+  config: classpath:logback.xml
+  level:
+    #org.apache.camel: DEBUG
+    org.apache.camel.examples: DEBUG

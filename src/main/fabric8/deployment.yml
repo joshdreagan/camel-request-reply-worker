@@ -1,0 +1,33 @@
+spec:
+  template:
+    spec:
+      serviceAccountName: camel-request-reply-worker-sa
+      containers:
+      - name: camel-request-reply-worker
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: file:/etc/config/
+        - name: SPRING_ACTIVEMQ_USER
+          valueFrom:
+            secretKeyRef:
+              name: camel-request-reply-worker-secret
+              key: spring.activemq.user
+        - name: SPRING_ACTIVEMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: camel-request-reply-worker-secret
+              key: spring.activemq.password
+        resources:
+          requests:
+            cpu: "1.0"
+          limits:
+            cpu: "4.0"
+        volumeMounts:
+        - name: camel-request-reply-worker-configmap-vol
+          mountPath: /etc/config
+          readOnly: true
+      volumes:
+      - name: camel-request-reply-worker-configmap-vol
+        configMap:
+          name: camel-request-reply-worker-configmap
+            
